@@ -16,6 +16,7 @@
       </label>
       <p>{{formFirm.image.name ?? 'No file chosen'}}</p>
     </div>
+    <p id="recommendation">Recommended file resolution 1000x300px</p>
     <div
       v-if="imageSrc != undefined" 
       :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
@@ -135,7 +136,12 @@ p {
   max-width: 300px;
   margin: 0 0 5px 0;
   aspect-ratio: 3.5/1;
-  border: solid 1px #FFFFFF;
+  border: solid;
+  border-bottom-color: #fff;
+  border-left: 15px solid #fff;
+  border-radius: 7px;
+  border-right: 15px solid #fff;
+  border-top-color: #fff;
   background-color: #FFFFFF;
   border-radius: 7px;
   display: flex;
@@ -234,6 +240,12 @@ h4 {
 }
 .password-container input {
   width: 97.1%;
+}
+
+#recommendation {
+  margin-top: 0;
+  font-size: 14px;
+  color: #afafaf;
 }
 
 @media only screen and (max-width: 850px) {
