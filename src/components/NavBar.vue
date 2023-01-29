@@ -124,6 +124,7 @@ li:hover {
         overflow-y: hidden;
     }
     ul {
+        width: 190px;
         position: absolute;
         overflow-y: scroll;
         top: 115px;
