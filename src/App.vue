@@ -86,7 +86,7 @@ main {
 
 @media only screen and (max-width: 850px) {
   #app {
-    width: 100%;
+    width: 90%;
     justify-content: center;
   }
   main {   

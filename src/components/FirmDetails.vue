@@ -26,7 +26,7 @@
     <h4>
       {{ currentFirm?.estonianDescription }}
     </h4>
-    <hr />
+    <hr v-if="currentFirm?.estonianDescription != null && currentFirm?.englishDescription != null" />
     <h4>
       {{ currentFirm?.englishDescription }}
     </h4>

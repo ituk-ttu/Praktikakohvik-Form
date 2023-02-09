@@ -47,7 +47,7 @@
       :class="errors?.EstonianDescription != undefined ? 'error' : ''"  
       name="estonianDescription" 
       cols="40" 
-      rows="8" 
+      rows="13"
       v-model="formFirm.estonianDescription"
     ></textarea>
     <h4 v-for="error in errors?.EstonianDescription" :key="error">⚠️{{ error }}</h4>
@@ -56,7 +56,7 @@
       :class="errors?.EnglishDescription != undefined ? 'error' : ''" 
       name="englishDescription" 
       cols="40" 
-      rows="8" 
+      rows="13"
       v-model="formFirm.englishDescription"
     ></textarea>
     <h4 v-for="error in errors?.EnglishDescription" :key="error">⚠️{{ error }}</h4>
@@ -132,7 +132,6 @@ p {
   text-overflow: ellipsis;
 }
 .image-container {
-  width: 100%;
   max-width: 300px;
   margin: 0 0 5px 0;
   aspect-ratio: 3.5/1;
