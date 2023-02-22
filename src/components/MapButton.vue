@@ -61,4 +61,10 @@ function setRowsAndColumns(column: string, row: string)
     opacity: 0.2;
 	cursor: context-menu;
 }
+
+@media only screen and (max-width: 850px) {
+	.container-map button {
+		border-width: 1px;
+	}
+}
 </style>
