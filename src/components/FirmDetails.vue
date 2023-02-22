@@ -30,6 +30,24 @@
     <h4>
       {{ currentFirm?.englishDescription }}
     </h4>
+    <div class="map-container">
+      <img :src="require('@/assets/map.png')" alt="hall"/>
+      <div className="aspect-ratio-box">
+        <div className='container-map'>
+          <button 
+            v-for="firm in firms?.filter(function(firm) 
+            { 
+              return firm.gridMapColumn != null || firm.gridMapRow != null
+            })"
+            :key="firm.name" 
+            :style="{ gridColumn: firm.gridMapColumn, gridRow: firm.gridMapRow }"
+            :class="firm.name === currentFirm?.name ? 'active' : ''"
+          >
+            {{ firm.shortName }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
   <div v-else-if="editVisible">
     <div class="buttons">
@@ -61,7 +79,7 @@ import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
 import FirmForm from './FirmForm.vue'
-let { urlApi, apiKey, currentFirm, load, updateFirm, deleteFirm } = useFirms()
+let { urlApi, apiKey, firms, currentFirm, load, updateFirm, deleteFirm } = useFirms()
 const emit = defineEmits(['on-toggle'])
 
 onMounted(() => load());
@@ -177,6 +195,55 @@ input:hover:not(.error) {
   border: 3px solid #c3c3c3;
 }
 
+.map-container {
+	position: relative;
+	height: min-content;
+}
+.aspect-ratio-box {
+	height: 0;
+	overflow: hidden;
+	padding-top: calc(68/81*100%);
+	position: relative;
+}
+.container-map {
+	list-style-type: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: grid;
+	grid-template-columns: 17% 12% 12% 12% 12% 12% 12% 7% 4%;
+	grid-template-rows: 4fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+}
+.map-container img {
+	position: absolute;
+	width: 100%;
+	height: auto;
+}
+.container-map button {
+	padding: 0;
+	font-weight: 600;
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid #FF0063;
+	color: white;
+  font-size: 0.7vw;
+	border-radius: 4px;
+	background-color: #FF0063;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.container-map button:hover {
+	border-style: solid;
+}
+.container-map .active {
+	background-color: white;
+	color: #FF0063;
+}
+
 @media only screen and (max-width: 850px) {
   h4 {
     font-size: 14px;
@@ -186,5 +253,13 @@ input:hover:not(.error) {
     max-width: 250px;
     width: 80%;
   }
+	.container-map button {
+		font-size: 2vw;
+		font-weight: 200;
+	}
+	
+	.container-map button {
+		border: 0.5px solid #FF0063;
+	}
 }
 </style>

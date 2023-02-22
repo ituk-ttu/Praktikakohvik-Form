@@ -1,5 +1,7 @@
-import type { Firm } from "@/Models/Firms"
+import type { Firm, MapStatusAndFirms } from "@/Models/Firms"
 import { ref } from 'vue'
+const mapStatusAndFirms = ref<MapStatusAndFirms>()
+const mapStatus = ref<boolean>()
 const firms = ref<Firm[]>()
 const currentFirm = ref<Firm>()
 const urlApi = 'https://pkapi.onrender.com/api/'
@@ -18,7 +20,9 @@ export default function useFirms() {
   }
   
   const load = async () => {
-    firms.value = await loadFirms()
+    mapStatusAndFirms.value = await loadFirms()
+    mapStatus.value = mapStatusAndFirms.value?.displayMap
+    firms.value = mapStatusAndFirms.value?.firms
   }
 
   const postFirm = async (newFirm: Firm) => {
@@ -26,8 +30,11 @@ export default function useFirms() {
     const form = new FormData()
     form.append('Name', newFirm.name)
     form.append('Image', newFirm.image)
+    form.append('ShortName', newFirm.shortName)
     form.append('EnglishDescription', newFirm.englishDescription)
     form.append('EstonianDescription', newFirm.estonianDescription)
+    form.append('GridMapColumn', newFirm.gridMapColumn)
+    form.append('GridMapRow', newFirm.gridMapRow)
 
     const headers = new Headers()
     headers.set('KEY', newFirm.key)
@@ -58,8 +65,11 @@ export default function useFirms() {
     const form = new FormData()
     form.append('Name', firm.name)
     form.append('Image', firm.image)
+    form.append('ShortName', firm.shortName)
     form.append('EnglishDescription', firm.englishDescription)
     form.append('EstonianDescription', firm.estonianDescription)
+    form.append('GridMapColumn', firm.gridMapColumn)
+    form.append('GridMapRow', firm.gridMapRow)
 
     const headers = new Headers()
     headers.set('KEY', firm.key)
@@ -106,5 +116,17 @@ export default function useFirms() {
     }
   }
 
-  return { urlApi, apiKey, firms, currentFirm, load, postFirm, updateFirm, deleteFirm }
+  const updateMapStatus = async (status: boolean, key: string) => {
+    const headers = new Headers()
+    headers.set('KEY', key)
+
+    const response = await fetch(urlApi + 'map/' + status, {
+      method: 'PUT',
+      headers,
+    })
+
+    if (response.status === 200) mapStatus.value = status
+  }
+
+  return { urlApi, apiKey, firms, currentFirm, load, postFirm, updateFirm, deleteFirm, mapStatus, updateMapStatus }
 }

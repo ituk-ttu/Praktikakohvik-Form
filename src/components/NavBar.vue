@@ -3,6 +3,23 @@
     <CrudButton v-on:click="makeNavVisible" class="nav-button" :color="'#1f7a8c'" :text="'☰'" />
     <nav :style="style">
         <div class="nav-container">
+            <CrudButton 
+                class="map-toggle" 
+                :color="mapStatus ? 'green' : 'red'" 
+                :text="'🗺️'"
+                v-on:click="updateMapStatus(!mapStatus, apiKey ?? '')" 
+            />
+            <CrudButton 
+                class="password-button" 
+                type="button" 
+                v-on:click="togglePassword" 
+                :color="'#1f7a8c'" 
+                :text="passwordVisibility ? '😀' : '😄'" />
+            <input 
+                v-model="apiKey" 
+                placeholder="API key" 
+                :type="passwordVisibility ? 'text' : 'password'"
+            />
             <h1>OSALEVAD FIRMAD:</h1>
             <ul>
                 <li 
@@ -28,11 +45,14 @@ import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
 import { ref, defineEmits } from 'vue'
 const emit = defineEmits(['on-toggle'])
-let { currentFirm, firms } = useFirms();
+let { apiKey, currentFirm, firms, mapStatus, updateMapStatus } = useFirms();
 
 let style = ref<string>();
 let style2 = ref<string>();
 let status = ref(false);
+
+let passwordVisibility = ref(false)
+function togglePassword() { passwordVisibility.value = !passwordVisibility.value }
 
 function makeNavVisible() 
 {
@@ -106,6 +126,36 @@ li:hover {
     margin: 0;
     z-index: 1100;
 }
+input {
+    z-index: 1;
+    border: 3px solid transparent;
+    color: #000000;
+    border-radius: 5px;
+    transition: 0.25s;
+    font-weight: 1000;
+    outline: none;
+    padding: 2px 5px;
+    min-height: 30px;
+    width: 143px;
+    height: 30px;
+}
+input:focus {
+    border: 3px solid #c3c3c3;
+}
+input:hover {
+    border: 3px solid #c3c3c3;
+}
+.map-toggle {
+    position: absolute;
+    top: -3px;
+    left: 126px;
+    z-index: 2;
+}
+.password-button {
+    z-index: 2;
+    position: absolute;
+    margin: 2px 2px 0 83px;
+}
 
 @media only screen and (max-width: 850px) {
     .nav-button {
@@ -139,6 +189,24 @@ li:hover {
     }
     ul::-webkit-scrollbar-track {
         background: #170954;
+    }
+    .map-toggle {
+        top: 5px;
+        left: 133px;
+    }
+    input {
+        position: absolute;
+        top: 8px;
+        left: 49px;
+        width: 135px;
+    }
+    .map-toggle {
+        top: 5px;
+        left: 157px;
+    }
+    .password-button {
+        margin-left: 114px;
+        top: 8px;
     }
 }
 </style>

@@ -5,6 +5,7 @@
       :class="errors?.Name != undefined ? 'error' : ''" 
       name="name" 
       v-model="formFirm.name" 
+      placeholder="Firms name"
       type="text"
     >
     <h4 v-for="error in errors?.Name" :key="error">⚠️{{ error }}</h4>
@@ -48,6 +49,7 @@
       name="estonianDescription" 
       cols="40" 
       rows="13"
+      placeholder="Firms Estonian description"
       v-model="formFirm.estonianDescription"
     ></textarea>
     <h4 v-for="error in errors?.EstonianDescription" :key="error">⚠️{{ error }}</h4>
@@ -57,15 +59,63 @@
       name="englishDescription" 
       cols="40" 
       rows="13"
+      placeholder="Firms English description"
       v-model="formFirm.englishDescription"
     ></textarea>
     <h4 v-for="error in errors?.EnglishDescription" :key="error">⚠️{{ error }}</h4>
+    <label for="shortName">Short name</label>
+    <input 
+      :class="errors?.ShortName != undefined ? 'error' : ''" 
+      name="shortName" 
+      v-model="formFirm.shortName" 
+      placeholder="Firms 3 letter short name to display on map"
+      type="text"
+    >
+    <h4 v-for="error in errors?.ShortName" :key="error">⚠️{{ error }}</h4>
+    <label>Hall placement</label>
+    <div class="map-container">
+      <img :src="require('@/assets/map.png')" alt="hall"/>
+      <CrudButton 
+        class="remove" :color="'red'" :text="'❌'" :type="'button'" 
+        v-on:click="() => { formFirm.gridMapColumn = '', formFirm.gridMapRow = '' }" 
+      />
+      <div className="aspect-ratio-box">
+        <div className='container-map'>
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="2" column="2" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="2" column="3" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="2" column="4" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="2" column="5" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="2" column="6" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="2" column="7" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="3 / span 2" column="8" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="5 / span 2" column="8" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="7 / span 2" column="8" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="9" column="7" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="9" column="6" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="9" column="5" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="9" column="4" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="9" column="3" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="6" column="2" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="6" column="3" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="6" column="4" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="6" column="5" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="6" column="6" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="5" column="6" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="5" column="5" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="5" column="4" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="5" column="3" />
+          <MapButton @on-click-map="setLocation" :formFirm="formFirm" :firms="firms" row="5" column="2" />
+        </div>
+      </div>
+    </div>
+    <h4 v-for="error in errors?.GridMapRow" :key="error">⚠️{{ error }}</h4>
     <label for="key">Key</label>
     <div class="password-container">
       <input
         :class="errors?.title != undefined ? 'error' : ''" 
         name="key" 
         v-model="formFirm.key" 
+        placeholder="API key"
         :type="passwordVisibility ? 'text' : 'password'"
       >
       <CrudButton type="button" class="password-button" v-on:click="togglePassword" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
@@ -80,15 +130,19 @@ import { ref, Ref, defineProps, defineEmits, onMounted } from 'vue'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
-let { urlApi, apiKey, load } = useFirms();
+import MapButton from './MapButton.vue'
+let { urlApi, apiKey, load, firms } = useFirms();
 const emit = defineEmits<{ (e: 'on-submit', formFirm: Firm): void }>()
 const prop = defineProps<{ firm?: Firm, errors?: FirmValidation }>();
 const formFirm: Ref<Firm> = ref({
   id: '',
   name: prop.firm?.name ?? '',
+  shortName: prop.firm?.shortName ?? '',
   image: prop.firm?.image ?? '',
   englishDescription: prop.firm?.englishDescription ?? '',
   estonianDescription: prop.firm?.estonianDescription ?? '',
+  gridMapColumn: prop.firm?.gridMapColumn ?? '',
+  gridMapRow: prop.firm?.gridMapRow ?? '',
   key: apiKey
 });
 
@@ -114,6 +168,11 @@ function createImage(file: any) {
     }
   }
   reader.readAsDataURL(file)
+}
+function setLocation(value: string[])
+{
+  formFirm.value.gridMapColumn = value[0];
+  formFirm.value.gridMapRow = value[1];
 }
 </script>
 
@@ -228,6 +287,38 @@ h4 {
   margin: 5px 0 10px 0;
   padding: 0;
 }
+
+.map-container {
+	position: relative;
+	height: min-content;
+}
+.aspect-ratio-box {
+	height: 0;
+	overflow: hidden;
+	padding-top: calc(68/81*100%);
+	position: relative;
+}
+.container-map {
+	list-style-type: none;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: grid;
+	grid-template-columns: 17% 12% 12% 12% 12% 12% 12% 7% 4%;
+	grid-template-rows: 4fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+}
+.map-container img {
+	position: absolute;
+	width: 100%;
+	height: auto;
+}
+.remove {
+  z-index: 100;
+  position: absolute;
+}
+
 .password-button {
   position: absolute;
   margin: 2px 2px 0 0;
