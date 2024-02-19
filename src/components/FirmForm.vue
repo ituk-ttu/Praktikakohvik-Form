@@ -21,6 +21,7 @@
     <div
       v-if="imageSrc != undefined" 
       :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
+      :style="'background-color: ' + (formFirm.imageBackground ?? 'white') + '; border-color: '+ (formFirm.imageBackground ?? 'white') + ';'"
     >
       <img 
         :src="imageSrc" 
@@ -30,6 +31,7 @@
     <div
       v-else
       :class="errors?.Image != undefined ? 'image-container error' : 'image-container'"
+      :style="'background-color: ' + (formFirm.imageBackground ?? 'white') + '; border-color: '+ (formFirm.imageBackground ?? 'white') + ';'"
     >
       <img v-if="firm?.id != undefined"
         :src="urlApi + 'firms/' + firm?.id + '/image/' + (new Date()).toISOString()"
@@ -43,25 +45,19 @@
       />
     </div>
     <h4 v-for="error in errors?.Image" :key="error">⚠️{{ error }}</h4>
+    <label for="imageBackground">Image background color</label>
+    <input 
+      :class="errors?.ShortName != undefined ? 'error' : ''" 
+      name="shortName" 
+      v-model="formFirm.imageBackground" 
+      placeholder="Firms image background color"
+      type="color"
+    >
     <label for="estonianDescription">Estonian description</label>
-    <textarea 
-      :class="errors?.EstonianDescription != undefined ? 'error' : ''"  
-      name="estonianDescription" 
-      cols="40" 
-      rows="13"
-      placeholder="Firms Estonian description"
-      v-model="formFirm.estonianDescription"
-    ></textarea>
+    <Editor v-model="formFirm.estonianDescription" placeholder="Firms Estonian description" editorStyle="height: 320px" />
     <h4 v-for="error in errors?.EstonianDescription" :key="error">⚠️{{ error }}</h4>
     <label for="englishDescription">English description</label>
-    <textarea
-      :class="errors?.EnglishDescription != undefined ? 'error' : ''" 
-      name="englishDescription" 
-      cols="40" 
-      rows="13"
-      placeholder="Firms English description"
-      v-model="formFirm.englishDescription"
-    ></textarea>
+    <Editor v-model="formFirm.englishDescription" placeholder="Firms English description" editorStyle="height: 320px" />
     <h4 v-for="error in errors?.EnglishDescription" :key="error">⚠️{{ error }}</h4>
     <label for="shortName">Short name</label>
     <input 
@@ -131,6 +127,7 @@ import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
 import MapButton from './MapButton.vue'
+import Editor from 'primevue/editor';
 let { urlApi, apiKey, load, firms } = useFirms();
 const emit = defineEmits<{ (e: 'on-submit', formFirm: Firm): void }>()
 const prop = defineProps<{ firm?: Firm, errors?: FirmValidation }>();
@@ -139,6 +136,7 @@ const formFirm: Ref<Firm> = ref({
   name: prop.firm?.name ?? '',
   shortName: prop.firm?.shortName ?? '',
   image: prop.firm?.image ?? '',
+  imageBackground: prop.firm?.imageBackground ?? '#FFFFFF',
   englishDescription: prop.firm?.englishDescription ?? '',
   estonianDescription: prop.firm?.estonianDescription ?? '',
   gridMapColumn: prop.firm?.gridMapColumn ?? '',
