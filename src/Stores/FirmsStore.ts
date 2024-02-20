@@ -30,6 +30,7 @@ export default function useFirms() {
     const form = new FormData()
     form.append('Name', newFirm.name)
     form.append('Image', newFirm.image)
+    form.append('ImageBackground', newFirm.imageBackground)
     form.append('ShortName', newFirm.shortName)
     form.append('EnglishDescription', newFirm.englishDescription)
     form.append('EstonianDescription', newFirm.estonianDescription)

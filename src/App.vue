@@ -62,8 +62,11 @@ h1, h2 {
 }
 h3, h4, label, li, input, textarea, p {
   font-family: Gilroy-l;
-  color: white;
   font-weight: 400;
+}
+
+input {
+  box-sizing: content-box;
 }
 
 body {

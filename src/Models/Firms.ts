@@ -8,6 +8,7 @@ export interface Firm {
     name: string;
     shortName: string;
     image: any;
+    imageBackground: string;
     englishDescription: string;
     estonianDescription: string;
     gridMapColumn: string;
@@ -17,8 +18,9 @@ export interface Firm {
 
 export interface FirmValidation {
     Name: string;
-    Image: string;
     ShortName: string;
+    Image: string;
+    ImageBackground: string;
     EnglishDescription: string;
     EstonianDescription: string;
     title: string;
