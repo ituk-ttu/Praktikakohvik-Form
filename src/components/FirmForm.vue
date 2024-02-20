@@ -1,6 +1,8 @@
 <template>
   <form @submit.prevent="emit('on-submit', formFirm)">
-    <label for="name">Name</label>
+    <label><span style="color: red;">*</span> required field</label>
+    <br />
+    <label for="name">Name <span style="color: red;">*</span></label>
     <input 
       :class="errors?.Name != undefined ? 'error' : ''" 
       name="name" 
@@ -9,7 +11,7 @@
       type="text"
     >
     <h4 v-for="error in errors?.Name" :key="error">⚠️{{ error }}</h4>
-    <label for="image">Image</label>
+    <label for="image">Image <span style="color: red;">*</span></label>
     <div class="image-upload-container">
       <label for="file-upload" class="custom-file-upload">
           <input id="file-upload" name="image" type="file" v-on:change="(e) => onChange(e)">
@@ -46,20 +48,19 @@
     </div>
     <h4 v-for="error in errors?.Image" :key="error">⚠️{{ error }}</h4>
     <label for="imageBackground">Image background color</label>
-    <input 
-      :class="errors?.ShortName != undefined ? 'error' : ''" 
+    <input
       name="shortName" 
       v-model="formFirm.imageBackground" 
       placeholder="Firms image background color"
       type="color"
     >
     <label for="estonianDescription">Estonian description</label>
-    <Editor v-model="formFirm.estonianDescription" placeholder="Firms Estonian description" editorStyle="height: 320px" />
+    <Editor class="editor" v-model="formFirm.estonianDescription" placeholder="Firms Estonian description" editorStyle="height: 320px" />
     <h4 v-for="error in errors?.EstonianDescription" :key="error">⚠️{{ error }}</h4>
     <label for="englishDescription">English description</label>
-    <Editor v-model="formFirm.englishDescription" placeholder="Firms English description" editorStyle="height: 320px" />
+    <Editor class="editor" v-model="formFirm.englishDescription" placeholder="Firms English description" editorStyle="height: 320px" />
     <h4 v-for="error in errors?.EnglishDescription" :key="error">⚠️{{ error }}</h4>
-    <label for="shortName">Short name</label>
+    <label for="shortName">Short name <span style="color: red;">*</span></label>
     <input 
       :class="errors?.ShortName != undefined ? 'error' : ''" 
       name="shortName" 
@@ -105,7 +106,7 @@
       </div>
     </div>
     <h4 v-for="error in errors?.GridMapRow" :key="error">⚠️{{ error }}</h4>
-    <label for="key">Key</label>
+    <label for="key">Key <span style="color: red;">*</span></label>
     <div class="password-container">
       <input
         :class="errors?.title != undefined ? 'error' : ''" 

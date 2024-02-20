@@ -21,7 +21,7 @@
                 :type="passwordVisibility ? 'text' : 'password'"
             />
             <h1>OSALEVAD FIRMAD:</h1>
-            <ul>
+            <ul class="list-container">
                 <li 
                     v-for="firm1 in firms" :key="firm1.id" 
                     v-on:click="emit('on-toggle', firm1.id); makeNavVisible()"
@@ -79,6 +79,9 @@ onresize = () => {
 </script>
 
 <style scoped>
+.list-container {
+    color: white;
+}
 .feedback-background {
     display: none;
     position: fixed;

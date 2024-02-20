@@ -9,7 +9,10 @@
     <h1>Delete "{{ currentFirm?.name }}" 🗑️</h1>
   </div>
 
-  <div :class="detailsVisible ? 'image-container middle' : 'image-container'" v-if="!editVisible">
+  <div 
+      :style="loading ? '' : 'background-color: ' + (currentFirm?.imageBackground ?? 'white') + '; border-color: '+ (currentFirm?.imageBackground ?? 'white') + ';'"
+      :class="detailsVisible ? 'image-container middle' : 'image-container'" v-if="!editVisible"
+    >
     <img 
       :src="urlApi + 'firms/' + currentFirm?.id + '/image/' + (new Date()).toISOString()"
       :style="loading ? 'visibility: hidden; width: 0;' : ''"
@@ -22,14 +25,10 @@
     />
   </div>
 
-  <div v-if="detailsVisible">
-    <h4>
-      {{ currentFirm?.estonianDescription }}
-    </h4>
+  <div class="text-container" v-if="detailsVisible">
+    <div v-html="currentFirm?.estonianDescription"></div>
     <hr v-if="currentFirm?.estonianDescription != null && currentFirm?.englishDescription != null" />
-    <h4>
-      {{ currentFirm?.englishDescription }}
-    </h4>
+    <div v-html="currentFirm?.englishDescription"></div>
     <div class="map-container">
       <img :src="require('@/assets/map.png')" alt="hall"/>
       <div className="aspect-ratio-box">
@@ -113,6 +112,9 @@ async function submitDelete() {
 </script>
 
 <style scoped>
+.text-container {
+  color: white;
+}
 .image-container {
   align-items: center;
   aspect-ratio: 3.5/1;
