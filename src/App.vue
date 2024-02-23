@@ -41,6 +41,19 @@ async function submit(userForm: Firm) {
   display: none;
 }
 
+.ql-align-justify {
+	text-align: justify;
+}
+.ql-align-right {
+	text-align: right;
+}
+.ql-align-center {
+	text-align: center;
+}
+.ql-align-left {
+	text-align: left;
+}
+
 html, body {
   width: 100%;
   height: auto;

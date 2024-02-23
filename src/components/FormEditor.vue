@@ -26,13 +26,3 @@
 <script setup lang="ts">
 import Editor from 'primevue/editor'
 </script>
-
-<style scoped>
-.editor div {
-  background-color: #ff8357;
-}
-
-.ql-editor {
-  background-color: #ff8357;
-}
-</style>
