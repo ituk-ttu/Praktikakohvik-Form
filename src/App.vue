@@ -67,6 +67,7 @@ h3, h4, label, li, input, textarea, p {
 
 input {
   box-sizing: content-box;
+  background-color: white;
 }
 
 body {

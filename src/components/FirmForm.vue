@@ -55,10 +55,10 @@
       type="color"
     >
     <label for="estonianDescription">Estonian description</label>
-    <Editor class="editor" v-model="formFirm.estonianDescription" placeholder="Firms Estonian description" editorStyle="height: 320px" />
+    <FormEditor v-model="formFirm.estonianDescription" />
     <h4 v-for="error in errors?.EstonianDescription" :key="error">⚠️{{ error }}</h4>
     <label for="englishDescription">English description</label>
-    <Editor class="editor" v-model="formFirm.englishDescription" placeholder="Firms English description" editorStyle="height: 320px" />
+    <FormEditor v-model="formFirm.englishDescription" />
     <h4 v-for="error in errors?.EnglishDescription" :key="error">⚠️{{ error }}</h4>
     <label for="shortName">Short name <span style="color: red;">*</span></label>
     <input 
@@ -127,8 +127,10 @@ import { ref, Ref, defineProps, defineEmits, onMounted } from 'vue'
 import { Firm, FirmValidation } from '@/Models/Firms'
 import useFirms from '@/Stores/FirmsStore'
 import CrudButton from './CrudButton.vue'
+import FormEditor from './FormEditor.vue'
 import MapButton from './MapButton.vue'
-import Editor from 'primevue/editor';
+import Editor from 'primevue/editor'
+
 let { urlApi, apiKey, load, firms } = useFirms();
 const emit = defineEmits<{ (e: 'on-submit', formFirm: Firm): void }>()
 const prop = defineProps<{ firm?: Firm, errors?: FirmValidation }>();
