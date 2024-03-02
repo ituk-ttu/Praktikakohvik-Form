@@ -7,6 +7,7 @@
                 class="map-toggle" 
                 :color="mapStatus ? 'green' : 'red'" 
                 :text="'🗺️'"
+                v-tooltip.bottom="'Toggle map visiblity'"
                 v-on:click="updateMapStatus(!mapStatus, apiKey ?? '')" 
             />
             <CrudButton 
@@ -14,6 +15,7 @@
                 type="button" 
                 v-on:click="togglePassword" 
                 :color="'#1f7a8c'" 
+                v-tooltip.bottom="'Toggle password'"
                 :text="passwordVisibility ? '😀' : '😄'" />
             <input 
                 v-model="apiKey" 

@@ -50,7 +50,7 @@
     <label for="imageBackground">Image background color</label>
     <input
       name="shortName" 
-      v-model="formFirm.imageBackground" 
+      v-model="formFirm.imageBackground"
       placeholder="Firms image background color"
       type="color"
     >
@@ -74,6 +74,7 @@
       <img :src="require('@/assets/map.png')" alt="hall"/>
       <CrudButton 
         class="remove" :color="'red'" :text="'❌'" :type="'button'" 
+        v-tooltip.bottom="'Remove from map'"
         v-on:click="() => { formFirm.gridMapColumn = '', formFirm.gridMapRow = '' }" 
       />
       <div className="aspect-ratio-box">
@@ -115,7 +116,7 @@
         placeholder="API key"
         :type="passwordVisibility ? 'text' : 'password'"
       >
-      <CrudButton type="button" class="password-button" v-on:click="togglePassword" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
+      <CrudButton type="button" v-tooltip.bottom="'Toggle password'" class="password-button" v-on:click="togglePassword" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
     </div>
     <h4>{{ errors?.title != undefined ? '⚠️' + errors?.title : '' }}</h4>
     <CrudButton type="submit" :color="'green'" :text="'Salvesta ✔️'" />

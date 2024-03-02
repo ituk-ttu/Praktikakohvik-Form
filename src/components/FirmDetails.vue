@@ -1,8 +1,8 @@
 <template>
   <div v-if="detailsVisible">
     <div class="button-container">
-      <CrudButton v-on:click="toggleEdit" :color="'#1f7a8c'" :text="'✏️'" />
-      <CrudButton v-on:click="toggleDelete" :color="'#AE1F1F'" :text="'🗑️'" />
+      <CrudButton v-on:click="toggleEdit" v-tooltip.bottom="'Edit'" :color="'#1f7a8c'" :text="'✏️'" />
+      <CrudButton v-on:click="toggleDelete" v-tooltip.bottom="'Delete'" :color="'#AE1F1F'" :text="'🗑️'" />
     </div>
   </div>
   <div class="delete-container" v-if="deleteVisible">
@@ -51,7 +51,7 @@
   <div v-else-if="editVisible">
     <div class="buttons">
       <h1>Edit "{{ currentFirm?.name }}" ✏️</h1>
-      <CrudButton v-on:click="{ toggleDetails(); loading = true }" :color="'red'" :text="'❌'" />
+      <CrudButton v-on:click="{ toggleDetails(); loading = true }" :color="'red'" v-tooltip.bottom="'Cancel'" :text="'❌'" />
     </div>
     <FirmForm @on-submit="submitUpdate" :firm="currentFirm" :errors="errors" />
   </div>
@@ -63,11 +63,11 @@
       v-model="key" 
       :type="passwordVisibility ? 'text' : 'password'"
     >
-    <CrudButton class="password-button" v-on:click="togglePassword" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
+    <CrudButton class="password-button" v-on:click="togglePassword" v-tooltip.bottom="'Toggle password'" :color="'#1f7a8c'" :text="passwordVisibility ? '😀' : '😄'" />
     <p>{{ errors?.title != undefined ? '⚠️' + errors?.title : '' }}</p>
     <div class="buttons">
-      <CrudButton v-on:click="submitDelete" :color="'green'" :text="'✔️'" />
-      <CrudButton v-on:click="toggleDetails" :color="'red'" :text="'❌'" />
+      <CrudButton v-on:click="submitDelete" :color="'green'" v-tooltip.bottom="'Delete'" :text="'✔️'" />
+      <CrudButton v-on:click="toggleDetails" :color="'red'" v-tooltip.bottom="'Cancel'" :text="'❌'" />
     </div>
   </div>
 </template>
@@ -173,6 +173,7 @@ p {
   margin-left: -37px;
 }
 label {
+  color: #FFFFFF;
   display: block;
   padding-bottom: 5px;
 }
